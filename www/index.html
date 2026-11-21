@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<title>Планировщик</title>
+<style>
+:root{--bg:#1E1E22;--sf:#2A2A30;--bd:#4A4A54;--cd:#F5F5F5;--ink:#F5F5F5;--mu:#9A9AA4;--mc:#A4A4AE;--ln:rgba(245,245,245,.12);--ac:#FF2E63;--on:#fff;--c0:#FF2E63;--c1:#00F5D4;--c2:#FFB800;--c3:#003366;--c4:#7A5CFF;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--cd);font:400 14px Manrope,system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{height:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;position:relative}
+button,input,select{font:inherit;color:inherit}
+label,.wd,.gh>div,.gut>div,.ad>div:first-child,.brand,.pill button,.row small,.n,nav button{font-family:"JetBrains Mono",ui-monospace,monospace}
+header{padding:12px 14px 4px}
+.r0{display:flex;align-items:center;gap:10px}.sp{flex:1}
+.brand{font-size:15px;font-weight:600;letter-spacing:.1em}.brand i{color:var(--mu);font-style:normal}
+.ib{width:38px;height:38px;border-radius:10px;border:2px solid var(--bd);background:var(--sf);color:var(--ink);cursor:pointer;font-size:18px;box-shadow:3px 3px 0 var(--ac)}
+.ib.pu{background:var(--ac);color:var(--on);font-size:22px;border-color:var(--ac);box-shadow:none}
+.cal{display:none;margin-top:14px}
+.r1{display:flex;align-items:center;gap:8px}
+h1{flex:1;margin:0;font-size:26px;font-weight:800;text-transform:capitalize;letter-spacing:-.01em}h1 span{color:var(--mu);font-weight:600}
+.pill{display:flex;border:1px solid rgba(245,245,245,.3);border-radius:10px;overflow:hidden}
+.pill button{background:none;border:0;height:34px;padding:0 11px;font-size:10px;letter-spacing:.1em;cursor:pointer;color:var(--cd)}
+.pill button+button{border-left:1px solid rgba(245,245,245,.3)}
+.seg{display:flex;gap:6px;margin-top:10px}
+.b{background:none;border:1px solid rgba(245,245,245,.3);color:var(--cd);height:34px;min-width:34px;padding:0 12px;cursor:pointer;border-radius:10px}
+.b.on{background:var(--ac);border-color:var(--ac);color:var(--on);font-weight:600}
+main{flex:1;overflow:auto;position:relative}
+.pg{padding:12px 16px 22px}
+.card{background:var(--sf);color:var(--ink);border:2px solid var(--bd);border-radius:12px;padding:14px 16px;box-shadow:4px 4px 0 var(--ac)}
+.card label{display:block;font-size:10px;letter-spacing:.14em;color:var(--mc)}
+.card p{margin:6px 0 0;color:var(--mc)}.card p b{font-size:30px;font-weight:800;color:var(--ink)}
+.hero{display:flex;gap:16px;align-items:center}
+.hero b{display:block;font-size:17px;font-weight:800}.hero small{color:var(--mc)}
+.rg0,.rg1{fill:none;stroke-width:6}.rg0{stroke:rgba(245,245,245,.12)}.rg1{stroke:var(--ac);stroke-linecap:butt}
+svg text{fill:var(--ink);font:700 17px "JetBrains Mono",monospace}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.sec h3{margin:26px 2px 12px;font-size:17px;font-weight:600}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:2px solid var(--bd);border-radius:12px;margin-bottom:12px;background:var(--sf);color:var(--ink);cursor:pointer;box-shadow:3px 3px 0 var(--ec)}
+.row .ico{width:28px;height:28px;border-radius:50%;border:2px solid var(--bd);display:grid;place-items:center;color:var(--ink);font-size:14px;font-weight:800;flex:none}
+.row.d .ico{background:var(--ec);color:var(--bg)}.row .rt{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:600}.row.d .rt{text-decoration:line-through;color:var(--mc)}.row small{color:var(--mc);font-size:11px}
+.emp{color:var(--mu);text-align:center;padding:22px}
+.bars{display:flex;gap:4px;margin-top:14px}.bc{flex:1;text-align:center}.bc small{font:10px "JetBrains Mono",monospace;color:var(--mc)}
+.bt{height:96px;display:flex;align-items:flex-end;margin-bottom:4px}
+.bt i{display:block;width:100%;position:relative;background:rgba(245,245,245,.12)}
+.bt u{display:block;position:absolute;bottom:0;left:0;width:100%;background:var(--ac);text-decoration:none}
+.lg{display:block;margin-top:10px;color:var(--mc);font-size:11px}
+.wd,.mg{display:grid;grid-template-columns:repeat(7,1fr)}
+.wd{padding:14px 10px 6px;color:var(--mu);font-size:10px;text-align:center;letter-spacing:.1em}
+.mg{gap:5px;padding:0 10px 14px}
+.mc{position:relative;background:none;border:2px solid transparent;border-radius:10px;min-height:60px;padding:4px;text-align:left;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;gap:2px}
+.mc.e{cursor:default}
+.mc.has{background:var(--sf);color:var(--ink);border-color:var(--bd)}
+.mc.ok{background:var(--ac);border-color:var(--ac);color:var(--on)}
+.mc.t,.mc.t.ok{border-color:#800020;box-shadow:0 0 0 2px #800020}
+.mc .n{font-size:12px;font-weight:600;color:var(--mu)}.mc.has .n{color:var(--ink)}.mc.ok .n{color:var(--on)}
+.ck2{position:absolute;right:6px;bottom:3px;color:var(--on);font-size:13px;font-weight:800}
+.chip{font-size:10px;line-height:1.3;padding:1px 4px;border-left:3px solid var(--ec);background:color-mix(in srgb,var(--ec) 30%,var(--sf));white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.chip.d,.ev.d{opacity:.45;text-decoration:line-through}
+.dots{display:none;gap:3px;flex-wrap:wrap}.dots i{width:7px;height:7px;background:var(--ec);border:0}
+@media(max-width:480px){.mc .chip{display:none}.mc .dots{display:flex}}
+.sk{position:sticky;top:0;z-index:4;background:var(--bg)}
+.gh,.ad,.tg{display:grid;grid-template-columns:42px repeat(var(--n),1fr)}
+.gh>div{padding:6px 2px;text-align:center;font-size:10px;color:var(--mu);border-bottom:1px solid var(--ln);cursor:pointer}
+.gh>div b{display:block;font-size:15px;color:var(--cd)}
+.gh .t b{color:var(--on);background:var(--ac);display:inline-block;padding:0 7px;margin-top:2px}
+.ad>div{border-bottom:1px solid var(--ln);border-left:1px solid var(--ln);padding:2px;min-height:6px}
+.ad>div:first-child{border-left:0;font-size:8px;color:var(--mu)}
+.gut>div{height:48px;font-size:10px;color:var(--mu);text-align:right;padding:0 6px;transform:translateY(-6px)}
+.col{position:relative;height:1152px;border-left:1px solid var(--ln);background:repeating-linear-gradient(to bottom,transparent 0,transparent 47px,rgba(245,245,245,.08) 47px,rgba(245,245,245,.08) 48px)}
+.ev{position:absolute;padding:3px 5px;font-size:11px;line-height:1.25;overflow:hidden;border-left:4px solid var(--ec);background:color-mix(in srgb,var(--ec) 24%,var(--bg));color:var(--cd);border-radius:6px;cursor:pointer;display:flex;gap:4px}
+.ev .x{overflow:hidden;font-weight:600}.ev small{color:var(--mu);display:block;font-size:10px;font-weight:400}
+.ck{flex:none;width:16px;height:16px;border:2px solid var(--ec);border-radius:50%;display:grid;place-items:center;font-size:10px;margin-top:1px}
+.ev.d .ck{background:var(--ec);color:var(--bg)}
+.now{position:absolute;left:0;right:0;height:2px;background:var(--ac);z-index:2;pointer-events:none}
+nav{display:flex;gap:4px;margin:6px 14px 10px;padding:5px;background:var(--sf);border:2px solid var(--bd);border-radius:14px;box-shadow:0 0 0 1px rgba(245,245,245,.2)}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;color:var(--mc);font-size:10px;padding:8px 0;border-radius:10px;cursor:pointer}
+nav button.on{color:var(--on);background:var(--ac)}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.7);opacity:0;pointer-events:none;transition:opacity .2s;z-index:8}.ov.on{opacity:1;pointer-events:auto}
+.sh{position:absolute;left:0;right:0;bottom:0;max-height:90%;overflow:auto;background:var(--sf);color:var(--ink);border-top:4px solid var(--ac);border-radius:18px 18px 0 0;transform:translateY(105%);transition:transform .25s;z-index:9;padding:18px 16px}.sh.on{transform:none}
+.sh h2{margin:0 0 14px;font-size:18px;font-weight:800}
+.f{display:flex;gap:8px;margin-bottom:10px;align-items:center}
+.f label{color:var(--mc);font-size:11px;min-width:76px}
+input[type=text],input[type=date],input[type=time],select{flex:1;min-width:0;height:42px;background:var(--bg);border:2px solid var(--bd);color:var(--ink);padding:0 10px;font:16px Manrope,system-ui,sans-serif;border-radius:10px}
+input:focus,select:focus,.b:focus-visible,.mc:focus-visible,nav button:focus-visible,.ib:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.sw{display:flex;gap:10px}.sw button{width:30px;height:30px;border:2px solid var(--bd);background:var(--ec);cursor:pointer;padding:0;border-radius:50%}.sw button.on{box-shadow:0 0 0 2px var(--sf),0 0 0 4px var(--cd)}
+.acts{display:flex;gap:8px;margin-top:14px}.acts .b{flex:1;height:44px}
+.sh .b{background:var(--bg);color:var(--ink);border:2px solid var(--bd)}
+.sh .b.on,.sh .pr{background:var(--ac);color:var(--on);border-color:var(--bd);font-weight:800}
+.note{color:var(--mc);font-size:12px;line-height:1.5;margin:6px 0 10px}
+#toast{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));left:14px;right:14px;background:var(--sf);color:var(--ink);border:2px solid var(--ac);border-radius:12px;padding:10px 12px;z-index:20;display:none;font-weight:600}
+.fire{display:none;align-items:center;gap:5px;font:600 14px "JetBrains Mono",monospace;color:var(--ac);border:2px solid var(--bd);background:var(--sf);border-radius:10px;height:38px;padding:0 10px}.fire.on{display:inline-flex}.fire svg{width:16px;height:16px;fill:var(--ac)}.fl{width:22px;height:22px;fill:var(--ac);vertical-align:-4px;margin-right:4px}
+.f .b{flex:1}.mv{height:28px;font-size:11px;min-width:0;padding:0 8px;flex:none}.dt{width:18px;height:18px;border-radius:50%;flex:none}
+</style></head><body>
+<div id="app">
+<header><div class="r0"><b class="brand">ПЛАНЕР <i>/ <span id="bd"></span></i></b><span class="sp"></span><span class="fire" id="fr" title="Серия дней, когда выполнены все задачи"><svg viewBox="0 0 24 24"><path d="M12 2c1 3.5-1 5-2.5 7C8 11 7 12.5 7 15a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5-.3 1.5-1 2.3-2 2.5 1-3 1-6-1-11z"/></svg><b id="fn"></b></span><button class="ib" id="sb" aria-label="Поиск"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M16 16l4 4"/></svg></button><button class="ib" id="gr" aria-label="Настройки">⚙</button><button class="ib pu" id="fb" aria-label="Новая задача">+</button></div>
+<div class="cal" id="cc"><div class="r1"><h1 id="ti"></h1><div class="pill"><button id="pv" aria-label="Назад">‹</button><button id="td">СЕГОДНЯ</button><button id="nx" aria-label="Вперёд">›</button></div></div>
+<div class="seg"><button class="b" data-m="month">Месяц</button><button class="b" data-m="week">Неделя</button><button class="b" data-m="day">День</button></div></div></header>
+<main id="mn"></main>
+<nav><button data-p="ov"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>Обзор</button><button data-p="cal"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Календарь</button><button data-p="in"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 19v-6M12 19V6M18 19v-9"/></svg>Итоги</button></nav>
+<div id="toast"></div><div class="ov" id="ov"></div><div class="sh" id="sh" role="dialog"></div>
+</div>
+<script>
+(function(){
+var FL='<svg class="fl" viewBox="0 0 24 24"><path d="M12 2c1 3.5-1 5-2.5 7C8 11 7 12.5 7 15a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5-.3 1.5-1 2.3-2 2.5 1-3 1-6-1-11z"/></svg>',H=48,AC=['#FF2E63','#00F5D4','#FFB800','#003366','#7A5CFF'];
+function ld(k,d){try{var r=localStorage.getItem(k);return r?JSON.parse(r):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var S=Object.assign({ac:0,ws:1,lead:10,notif:false,h0:7,cn:['Работа','Личное','Учёба','Здоровье','Другое']},ld('pl:set',{})),T=ld('pl:tasks',[]),N=ld('pl:nt',{});
+var cur=new Date(),mode='month',page='ov',$=function(i){return document.getElementById(i)},ed=null,rst=true;
+function p2(n){return n<10?'0'+n:''+n}
+function K(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function PD(s){var a=s.split('-');return new Date(+a[0],+a[1]-1,+a[2])}
+function tm(m){return p2(Math.floor(m/60))+':'+p2(m%60)}
+function pm(s){var a=s.split(':');return +a[0]*60+ +a[1]}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function add(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
+function occ(t,k){if(k<t.date)return false;var d=PD(k).getDay();return t.r==='day'||(t.r==='wkd'&&d>0&&d<6)||(t.r==='wk'&&d===PD(t.date).getDay())}
+function dayT(k){var o=[];T.forEach(function(t){if(!t.r){if(t.date===k)o.push(t)}else if(occ(t,k))o.push(Object.assign({},t,{date:k,done:!!(t.dn&&t.dn[k])}))});return o.sort(function(a,b){return (a.s==null?-1:a.s)-(b.s==null?-1:b.s)})}
+function wkStart(d){var x=new Date(d);x.setDate(x.getDate()-((x.getDay()-S.ws+7)%7));return x}
+function dn(){return S.ws?['Пн','Вт','Ср','Чт','Пт','Сб','Вс']:['Вс','Пн','Вт','Ср','Чт','Пт','Сб']}
+function save(){sv('pl:tasks',T);sched()}
+function range(){var a,b;if(mode==='month'){a=new Date(cur.getFullYear(),cur.getMonth(),1);b=new Date(cur.getFullYear(),cur.getMonth()+1,0)}else if(mode==='week'){a=wkStart(cur);b=add(a,6)}else a=b=cur;return[K(a),K(b)]}
+function dayStat(k){var a=dayT(k);return{n:a.length,d:a.filter(function(t){return t.done}).length}}
+function streak(){var R=T.some(function(t){return t.r}),n=0,d=new Date();
+  function st(k){var a=dayT(k);if(R)a=a.filter(function(t){return t.r});return{n:a.length,d:a.filter(function(t){return t.done}).length}}
+  var q=st(K(d));if(!q.n||q.d<q.n)d=add(d,-1);for(;;d=add(d,-1)){q=st(K(d));if(!q.n||q.d<q.n||n>3650)break;n++}return n}
+function row(t){return'<div class="row'+(t.done?' d':'')+'" data-ev="'+t.id+'" data-k="'+t.date+'" style="--ec:var(--c'+t.c+')"><span class="ico" data-tg="'+t.id+'" data-k="'+t.date+'">'+(t.done?'✓':'')+'</span><span class="rt">'+esc(t.title)+'</span><small>'+(t.s==null?'весь день':tm(t.s))+'</small></div>'}
+function ovw(){
+  var k=K(new Date()),a=dayT(k),s=dayStat(k),p=s.n?Math.round(s.d/s.n*100):0,C=2*Math.PI*30,
+  w=[0,1,2,3,4,5,6].map(function(i){return dayStat(K(add(new Date(),-i)))}),r=(function(){var n=0,d=0;w.forEach(function(x){n+=x.n;d+=x.d});return n?Math.round(d/n*100):0})(),
+  od=T.filter(function(t){return !t.r&&!t.done&&t.date<k}).sort(function(a,b){return a.date<b.date?-1:1}).slice(0,10);
+  return'<div class="pg"><div class="card hero"><svg width="76" height="76" viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" class="rg0"/><circle cx="38" cy="38" r="30" class="rg1" stroke-dasharray="'+C+'" stroke-dashoffset="'+C*(1-p/100)+'" transform="rotate(-90 38 38)"/><text x="38" y="43" text-anchor="middle">'+p+'%</text></svg><div><b>'+(!s.n?'День свободен.':p===100?'Всё сделано.':p>0?'Темп набран.':'Пора начинать.')+'</b><small>'+(s.n?'Сегодня выполнено '+s.d+' из '+s.n:'Добавьте первую задачу кнопкой «+»')+'</small></div></div>'
+  +'<div class="two"><div class="card"><label>СЕРИЯ</label><p>'+(streak()>=3?FL:'')+'<b>'+streak()+'</b> дн.</p></div><div class="card"><label>ЗА 7 ДНЕЙ</label><p class="gr"><b>'+r+'</b> %</p></div></div>'
+  +(od.length?'<div class="sec"><h3>Просрочено</h3></div>'+od.map(function(t){return row(t).replace(/<small>[^<]*<\/small><\/div>$/,'<small>'+t.date.slice(8)+'.'+t.date.slice(5,7)+'</small><button class="b mv" data-mv="'+t.id+'">→ сегодня</button></div>')}).join(''):'')+'<div class="sec"><h3>Сегодня</h3></div>'+(a.length?a.map(row).join(''):'<div class="emp">На сегодня задач нет</div>')+'</div>'}
+function ins(){
+  var h='',mx=1,ds=[],i,tot=0,dn=0;for(i=13;i>=0;i--){var d=add(new Date(),-i),s=dayStat(K(d));ds.push([d,s]);mx=Math.max(mx,s.n)}
+  ds.forEach(function(x){tot+=x[1].n;dn+=x[1].d;h+='<div class="bc"><div class="bt"><i style="height:'+x[1].n/mx*100+'%"><u style="height:'+(x[1].n?x[1].d/x[1].n*100:0)+'%"></u></i></div><small>'+x[0].getDate()+'</small></div>'});
+  return'<div class="pg"><div class="card"><label>ПОСЛЕДНИЕ 14 ДНЕЙ</label><div class="bars">'+h+'</div><small class="lg">светлее — всего задач, ярче — выполнено</small></div><div class="two"><div class="card"><label>ЗАДАЧ ЗА 14 ДНЕЙ</label><p><b>'+tot+'</b></p></div><div class="card"><label>ВЫПОЛНЕНО</label><p class="gr"><b>'+dn+'</b></p></div></div></div>'}
+function render(){
+  document.documentElement.style.setProperty('--ac',AC[S.ac]);document.documentElement.style.setProperty('--on',['#fff','#141416','#141416','#fff','#fff'][S.ac]||'#fff');
+  $('bd').textContent=p2(new Date().getDate());var sk=streak();$('fr').classList.toggle('on',sk>=3);$('fn').textContent=sk;
+  document.querySelectorAll('[data-p]').forEach(function(b){b.classList.toggle('on',b.dataset.p===page)});
+  $('cc').style.display=page==='cal'?'block':'none';
+  if(page==='ov'){$('mn').innerHTML=ovw();return}
+  if(page==='in'){$('mn').innerHTML=ins();return}
+  var o={month:{month:'long'},week:{day:'numeric',month:'short'},day:{weekday:'short',day:'numeric',month:'long'}}[mode];
+  if(mode==='month')$('ti').innerHTML=cur.toLocaleDateString('ru-RU',o)+' <span>'+cur.getFullYear()+'</span>';
+  else $('ti').textContent=mode==='week'?wkStart(cur).toLocaleDateString('ru-RU',o)+' – '+add(wkStart(cur),6).toLocaleDateString('ru-RU',o):cur.toLocaleDateString('ru-RU',o);
+  document.querySelectorAll('[data-m]').forEach(function(b){b.classList.toggle('on',b.dataset.m===mode)});
+  $('mn').innerHTML=mode==='month'?month():grid(mode==='week'?[0,1,2,3,4,5,6].map(function(i){return add(wkStart(cur),i)}):[cur]);
+  if(mode!=='month'&&rst){rst=false;var n=new Date();$('mn').scrollTop=Math.max(0,(K(n)===K(cur)?Math.max(S.h0,n.getHours()-1):S.h0)*H)}
+}
+function month(){
+  var y=cur.getFullYear(),m=cur.getMonth(),off=(new Date(y,m,1).getDay()-S.ws+7)%7,n=new Date(y,m+1,0).getDate(),td=K(new Date());
+  var h='<div class="wd">'+dn().map(function(x){return'<div>'+x+'</div>'}).join('')+'</div><div class="mg">';
+  for(var i=0;i<off;i++)h+='<div class="mc e"></div>';
+  for(var d=1;d<=n;d++){var k=y+'-'+p2(m+1)+'-'+p2(d),ts=dayT(k);
+    h+='<button class="mc'+(ts.length?' has':'')+(ts.length&&ts.every(function(t){return t.done})?' ok':'')+(k===td?' t':'')+'" data-day="'+k+'"><span class="n">'+d+'</span>';
+    ts.slice(0,3).forEach(function(t){h+='<span class="chip'+(t.done?' d':'')+'" style="--ec:var(--c'+t.c+')">'+esc(t.title)+'</span>'});
+    if(ts.length>3)h+='<span class="chip" style="--ec:var(--mu)">+'+(ts.length-3)+'</span>';
+    if(ts.length)h+='<span class="dots">'+ts.slice(0,4).map(function(t){return'<i style="--ec:var(--c'+t.c+')"></i>'}).join('')+'</span>';
+    h+=(ts.length&&ts.every(function(t){return t.done})?'<span class="ck2">✓</span>':'')+'</button>'}
+  return h+'</div>';
+}
+function grid(days){
+  var td=K(new Date()),n=days.length,h='<div class="sk" style="--n:'+n+'"><div class="gh"><div style="cursor:default"></div>';
+  days.forEach(function(d){var k=K(d);h+='<div data-day="'+k+'" class="'+(k===td?'t':'')+'">'+dn()[(d.getDay()-S.ws+7)%7]+'<b>'+d.getDate()+'</b></div>'});
+  h+='</div><div class="ad"><div>весь день</div>';
+  days.forEach(function(d){var k=K(d);h+='<div data-add="'+k+'">'+dayT(k).filter(function(t){return t.s==null}).map(function(t){return'<div class="chip'+(t.done?' d':'')+'" data-ev="'+t.id+'" data-k="'+t.date+'" style="--ec:var(--c'+t.c+')">'+esc(t.title)+'</div>'}).join('')+'</div>'});
+  h+='</div></div><div class="tg" style="--n:'+n+'"><div class="gut">';
+  for(var i=0;i<24;i++)h+='<div>'+(i?tm(i*60):'')+'</div>';
+  h+='</div>';
+  var nw=new Date();
+  days.forEach(function(d){var k=K(d),ev=dayT(k).filter(function(t){return t.s!=null}),ends=[],lane=[];
+    ev.forEach(function(t,i){var j=0;while(ends[j]>t.s)j++;ends[j]=t.s+t.d;lane[i]=j});
+    var L=Math.max(1,ends.length);
+    h+='<div class="col" data-add="'+k+'">';
+    ev.forEach(function(t,i){var hh=Math.max(t.d/60*H-1,18);
+      h+='<div class="ev'+(t.done?' d':'')+'" data-ev="'+t.id+'" data-k="'+t.date+'" style="--ec:var(--c'+t.c+');top:'+t.s/60*H+'px;height:'+hh+'px;left:'+lane[i]/L*100+'%;width:'+(100/L-1)+'%">'+(n===1?'<span class="ck" data-tg="'+t.id+'" data-k="'+t.date+'">'+(t.done?'✓':'')+'</span>':'')+'<span class="x">'+esc(t.title)+'<small>'+tm(t.s)+'–'+tm(Math.min(t.s+t.d,1440)%1440||1440)+'</small></span></div>'});
+    if(k===K(nw))h+='<div class="now" style="top:'+(nw.getHours()*60+nw.getMinutes())/60*H+'px"></div>';
+    h+='</div>'});
+  return h+'</div>';
+}
+function open(html){$('sh').innerHTML=html;$('ov').classList.add('on');$('sh').classList.add('on')}
+function close(){$('ov').classList.remove('on');$('sh').classList.remove('on');ed=null}
+function editor(t){
+  ed=t;var isNew=!t.id,dd=t.r?!!(t.dn&&t.dn[t.occ]):t.done;
+  open('<h2>'+(isNew?'Новая задача':'Задача')+'</h2><div class="f"><label>Название</label><input type="text" id="e1" maxlength="120" value="'+esc(t.title)+'"></div>'
+  +'<div class="f"><label>Дата</label><input type="date" id="e2" value="'+t.date+'"></div>'
+  +'<div class="f"><label>Перенос</label><button class="b" data-sh="1">+1 день</button><button class="b" data-sh="7">+1 неделя</button></div>'
+  +'<div class="f"><label>Начало</label><input type="time" id="e3" value="'+(t.s==null?'':tm(t.s))+'"><label style="min-width:auto">Конец</label><input type="time" id="e4" value="'+(t.s==null?'':tm(Math.min(t.s+t.d,1439)))+'"></div>'
+  +'<div class="f"><label>Повтор</label><select id="e6">'+[['','Не повторять'],['day','Каждый день'],['wkd','По будням'],['wk','Каждую неделю']].map(function(o){return'<option value="'+o[0]+'"'+((t.r||'')===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></div>'
+  +'<div class="note">Без времени задача попадёт в «весь день». Правки и удаление повторяющейся задачи действуют на всю серию.</div>'
+  +'<div class="f"><label>Категория</label><div class="sw" id="e5">'+AC.map(function(c,i){return'<button data-c="'+i+'" class="'+(i===t.c?'on':'')+'" style="--ec:var(--c'+i+')" aria-label="'+esc(S.cn[i])+'"></button>'}).join('')+'</div></div><div class="note" id="e7">'+esc(S.cn[t.c])+'</div>'
+  +'<div class="acts">'+(isNew?'':'<button class="b" id="eT">'+(dd?'Вернуть':'Выполнено ✓')+'</button><button class="b" id="eD">Удалить</button>')+'<button class="b pr" id="eS">Сохранить</button></div>');
+}
+function saveEd(){
+  var t=ed,v=$('e1').value.trim();if(!v||!$('e2').value)return;
+  t.title=v;t.date=$('e2').value;t.c=+(document.querySelector('#e5 .on')||{dataset:{c:0}}).dataset.c;t.r=$('e6').value;
+  var a=$('e3').value,b=$('e4').value;
+  if(a){t.s=pm(a);var e=b?pm(b):t.s+60;t.d=Math.max(15,e-t.s)}else{t.s=null;t.d=0}
+  delete t.occ;
+  if(!t.id){t.id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);t.done=false;T.push(t)}else T=T.map(function(o){return o.id===t.id?t:o});
+  save();close();render();
+}
+function search(){open('<h2>Поиск</h2><div class="f"><input type="text" id="q" placeholder="Название или категория" autocomplete="off"></div><div id="qr"></div>');setTimeout(function(){$('q').focus()},300)}
+function qres(v){v=v.trim().toLowerCase();var r=v?T.filter(function(t){return t.title.toLowerCase().indexOf(v)>-1||S.cn[t.c].toLowerCase().indexOf(v)>-1}).sort(function(a,b){return a.date<b.date?1:-1}).slice(0,30):[];
+  $('qr').innerHTML=r.length?r.map(function(t){return row(t).replace(/<small>[^<]*<\/small><\/div>$/,'<small>'+(t.r?'повтор':t.date.slice(8)+'.'+t.date.slice(5,7))+'</small></div>')}).join(''):'<div class="note">'+(v?'Ничего не найдено':'Введите запрос')+'</div>'}
+function settings(){
+  var o='';for(var i=0;i<24;i++)o+='<option value="'+i+'"'+(S.h0===i?' selected':'')+'>'+tm(i*60)+'</option>';
+  open('<h2>Настройки</h2><div class="f"><label>Акцент</label><div class="sw" id="s1">'+AC.map(function(c,i){return'<button data-a="'+i+'" class="'+(i===S.ac?'on':'')+'" style="--ec:var(--c'+i+')" aria-label="Акцент '+(i+1)+'"></button>'}).join('')+'</div></div>'
+  +'<div class="note">Категории (цвет = категория)</div>'+S.cn.map(function(n,i){return'<div class="f"><i class="dt" style="background:var(--c'+i+')"></i><input type="text" data-cn="'+i+'" maxlength="20" value="'+esc(n)+'"></div>'}).join('')+'<div class="f"><label>Неделя с</label><select id="s2"><option value="1"'+(S.ws?' selected':'')+'>Понедельник</option><option value="0"'+(S.ws?'':' selected')+'>Воскресенье</option></select></div>'
+  +'<div class="f"><label>Сетка с</label><select id="s3">'+o+'</select></div>'
+  +'<div class="f"><label>Напомнить</label><select id="s4">'+[0,5,10,30,60].map(function(m){return'<option value="'+m+'"'+(S.lead===m?' selected':'')+'>'+(m?'за '+m+' мин':'в момент начала')+'</option>'}).join('')+'</select></div>'
+  +'<div class="f"><label>Уведомл.</label><button class="b'+(S.notif?' on':'')+'" id="s5" style="flex:1">'+(S.notif?'Включены':'Выключены')+'</button></div>'
+  +'<div class="note">Напоминания на ближайшие 14 дней планируются на телефоне и приходят, даже когда приложение закрыто.</div>'
+  +'<div class="f"><label>Импорт .ics</label><input type="file" id="s6" accept=".ics,text/calendar" style="flex:1;font-size:13px"></div>'
+  +'<div class="note">Google Calendar → Настройки → Импорт и экспорт → Экспортировать. Повторяющиеся события импортируются один раз.</div>'
+  +'<div class="acts"><button class="b pr" id="s7">Готово</button></div>');
+}
+function icsDate(s){var m=s.match(/(\d{4})(\d\d)(\d\d)(?:T(\d\d)(\d\d)(\d\d)?(Z)?)?/);if(!m)return null;
+  if(m[4]==null)return{date:m[1]+'-'+m[2]+'-'+m[3],s:null};
+  var d=m[7]?new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5])):new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);
+  return{date:K(d),s:d.getHours()*60+d.getMinutes(),t:d.getTime()}}
+function imp(txt){
+  var c=0,have={};T.forEach(function(t){if(t.u)have[t.u]=1});
+  txt.replace(/\r?\n[ \t]/g,'').split('BEGIN:VEVENT').slice(1).forEach(function(b){
+    function g(n){var m=b.match(new RegExp('(?:^|\\n)'+n+'[^:\\n]*:([^\\r\\n]*)'));return m?m[1]:null}
+    var a=g('DTSTART'),su=g('SUMMARY');if(!a||!su)return;var A=icsDate(a),E=g('DTEND')?icsDate(g('DTEND')):null;if(!A)return;
+    var u=(g('UID')||su)+a;if(have[u])return;have[u]=1;
+    var d=0;if(A.s!=null){d=E&&E.t&&E.date===A.date?Math.max(15,Math.round((E.t-A.t)/60000)):60;d=Math.min(d,1440-A.s)}
+    T.push({id:'i'+Date.now().toString(36)+c,u:u,title:su.replace(/\\,/g,',').replace(/\\n/g,' ').replace(/\\;/g,';'),date:A.date,s:A.s,d:d,c:0,done:false});c++});
+  save();render();return c}
+function toast(m){var e=$('toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(function(){e.style.display='none'},6000)}
+function sched(){
+  var LN=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications;if(!LN||!S.notif)return;
+  clearTimeout(sched.t);sched.t=setTimeout(function(){
+    LN.getPending().then(function(p){return p.notifications.length?LN.cancel({notifications:p.notifications}):0}).then(function(){
+      var out=[],now=Date.now(),id=1;
+      for(var i=0;i<14;i++){var d=add(new Date(),i);dayT(K(d)).forEach(function(t){if(t.done||t.s==null)return;var at=new Date(d.getFullYear(),d.getMonth(),d.getDate(),0,t.s-S.lead);if(at.getTime()>now&&out.length<60)out.push({id:id++,title:'Скоро задача',body:tm(t.s)+' · '+t.title,schedule:{at:at,allowWhileIdle:true}})})}
+      if(out.length)LN.schedule({notifications:out})}).catch(function(){})},400)}
+function tick(){
+  var n=new Date(),nm=n.getHours()*60+n.getMinutes(),k=K(n),ch=false;
+  dayT(k).forEach(function(t){if(t.done||t.s==null)return;var id=t.id+k;
+    if(!N[id]&&nm>=t.s-S.lead&&nm<=t.s+5){N[id]=1;ch=true;var msg=tm(t.s)+' · '+t.title;toast(msg);
+      try{if(S.notif&&window.Notification&&Notification.permission==='granted')new Notification('Скоро задача',{body:msg})}catch(e){}}});
+  if(ch)sv('pl:nt',N)}
+function nav(s){if(mode==='month')cur=new Date(cur.getFullYear(),cur.getMonth()+s,1);else cur=add(cur,s*(mode==='week'?7:1));rst=true;render()}
+document.addEventListener('click',function(e){
+  var t=e.target,x;
+  if(x=t.closest('[data-mv]')){var m=T.filter(function(a){return a.id===x.dataset.mv})[0];m.date=K(new Date());save();render();return}
+  if(x=t.closest('[data-sh]')){var v=$('e2').value||K(new Date());$('e2').value=K(add(PD(v),+x.dataset.sh));return}
+  if(x=t.closest('[data-tg]')){var q=T.filter(function(a){return a.id===x.dataset.tg})[0];if(q.r){q.dn=q.dn||{};if(q.dn[x.dataset.k])delete q.dn[x.dataset.k];else q.dn[x.dataset.k]=1}else q.done=!q.done;save();render();return}
+  if(x=t.closest('[data-ev]')){var c=Object.assign({},T.filter(function(a){return a.id===x.dataset.ev})[0]);c.occ=x.dataset.k||c.date;editor(c);return}
+  if(x=t.closest('.mc[data-day]')){cur=PD(x.dataset.day);mode='day';rst=true;render();return}
+  if(x=t.closest('.gh [data-day]')){cur=PD(x.dataset.day);mode='day';rst=true;render();return}
+  if(x=t.closest('[data-add]')){var s=null;if(x.classList.contains('col')){s=Math.floor((e.clientY-x.getBoundingClientRect().top)/H*2)*30}
+    editor({title:'',date:x.dataset.add,s:s,d:60,c:0});return}
+  if(x=t.closest('[data-m]')){mode=x.dataset.m;rst=true;render();return}
+  if(x=t.closest('[data-p]')){page=x.dataset.p;rst=true;render();return}
+  if(x=t.closest('#e5 [data-c]')){document.querySelectorAll('#e5 button').forEach(function(b){b.classList.remove('on')});$('e7').textContent=S.cn[+x.dataset.c];x.classList.add('on');return}
+  if(x=t.closest('#s1 [data-a]')){S.ac=+x.dataset.a;sv('pl:set',S);document.querySelectorAll('#s1 button').forEach(function(b){b.classList.remove('on')});x.classList.add('on');render();return}
+  var id=(t.closest('button')||t).id;
+  if(id==='eS')saveEd();else if(id==='eT'){var bt=T.filter(function(a){return a.id===ed.id})[0];if(bt.r){bt.dn=bt.dn||{};if(bt.dn[ed.occ])delete bt.dn[ed.occ];else bt.dn[ed.occ]=1}else bt.done=!bt.done;save();close();render()}
+  else if(id==='eD'){T=T.filter(function(a){return a.id!==ed.id});save();close();render()}
+  else if(id==='ov'||id==='s7')close();
+  else if(id==='s5'){
+    if(S.notif){S.notif=false;sv('pl:set',S);settings();return}
+    var LN=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications;
+    if(LN){LN.requestPermissions().then(function(r){S.notif=r.display==='granted';sv('pl:set',S);if(S.notif)sched();else toast('Разрешите уведомления в настройках телефона.');settings()});return}
+    if(!window.Notification){toast('Браузер не поддерживает системные уведомления. Будут подсказки внутри приложения.');S.notif=true;sv('pl:set',S);settings();return}
+    Notification.requestPermission().then(function(p){S.notif=p==='granted';sv('pl:set',S);if(!S.notif)toast('Доступ к уведомлениям не выдан. Разрешите его в настройках браузера.');settings()})}
+  else if(id==='pv')nav(-1);else if(id==='nx')nav(1);
+  else if(id==='td'){cur=new Date();rst=true;render()}
+  else if(id==='gr')settings();else if(id==='sb')search();
+  else if(t.closest('#fb')){var n=new Date();editor({title:'',date:K(page!=='cal'||mode==='month'?n:cur),s:page!=='cal'||mode==='month'?null:Math.min(1380,(K(n)===K(cur)?n.getHours()+1:S.h0)*60),d:60,c:0})}
+});
+document.addEventListener('change',function(e){var i=e.target.id;
+  if(i==='s2'){S.ws=+e.target.value;rst=true}else if(i==='s3'){S.h0=+e.target.value;rst=true}else if(i==='s4')S.lead=+e.target.value;
+  if(i==='s6'){var f=e.target.files[0];if(f){var r=new FileReader();r.onload=function(){toast('Импортировано событий: '+imp(String(r.result)));close()};r.readAsText(f)}return}
+  if(/^s[234]$/.test(i)){sv('pl:set',S);render();sched()}});
+document.addEventListener('input',function(e){var i=e.target;if(i.id==='q')qres(i.value);else if(i.dataset&&i.dataset.cn!=null){S.cn[+i.dataset.cn]=i.value;sv('pl:set',S)}});
+$('ov').addEventListener('click',close);
+render();tick();sched();setInterval(tick,15000);setInterval(function(){if(page==='cal'&&mode!=='month'&&!ed&&!$('sh').classList.contains('on')){var s=$('mn').scrollTop;render();$('mn').scrollTop=s}},60000);
+})();
+</script></body></html>
